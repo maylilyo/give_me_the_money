@@ -37,6 +37,5 @@ def find_wage(worktime, base, minimum_wage):
 if __name__ == '__main__':
     current_year = str(datetime.today().year)
     minimum_wage = find_minimum_wage(current_year)
-    print(minimum_wage)
     w : int
     w = find_wage(0, 0, minimum_wage)
