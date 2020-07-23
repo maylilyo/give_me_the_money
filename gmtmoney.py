@@ -16,6 +16,7 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
 #kivy
 
 def find_minimum_wage(current_year): #최저시급 추출
@@ -51,7 +52,53 @@ class MyApp(App):
     def build(self):
         a = "안녕하세요"
         font = 'C:\\Users\\mayli\\Desktop\\give_me_the_money\\JejuMyeongjo.ttf'
-        return Label(text=a, font_name = font)
+        
+        #전체 box insert
+        border_box = BoxLayout(orientation='vertical')
+
+        #title box 양식 설정
+        title_box = BoxLayout(orientation='horizontal')
+        title_image = Button(text="이미지 삽입", font_name = font)
+        title_label = Label(text="최저시급 계산기", font_name = font)
+        title_wage = Label(text="2020년 최저시급:_", font_name = font)
+        title_box.add_widget(title_image)
+        title_box.add_widget(title_label)
+        title_box.add_widget(title_wage)
+
+        #time Schedule box 양식 설정
+        time_schedule_box = BoxLayout(orientation='horizontal')
+        time_label = Label(text="노동시간(전체, 시 기준)", font_name = font)
+        time_text_insert = Label(text="텍스트박스자리", font_name = font)
+        time_schedule_box.add_widget(time_label)
+        time_schedule_box.add_widget(time_text_insert)
+        
+        #재료비 box 양식 설정
+        material_cost_box = BoxLayout(orientation='horizontal')
+        material_label = Label(text="재료비", font_name = font)
+        material_cost_box.add_widget(material_label)
+        material_cost_box.add_widget(Label(text="here in material cost"))
+        #재료비 입력 box 양식 설정
+        #재료 이름, 개수, 총 금액
+
+        #최저시급 출력 box 양식 설정
+        cost_box = BoxLayout(orientation='horizontal')
+        cost_insert = Label(text="계산된 최저시급 자리", font_name = font)
+        cost_box.add_widget(Label(text="계산된 최저시급은",font_name = font))
+        cost_box.add_widget(cost_insert)
+        cost_box.add_widget(Label(text="입니다.",font_name = font))
+
+        #copywrite box 양식 설정
+        copywrite_box = BoxLayout(orientation='horizontal')
+        copywrite_box.add_widget(Label(text="copywrite maylilyo",font_name = font))
+
+        #전체 box에 각각의 box insert
+        border_box.add_widget(title_box)
+        border_box.add_widget(time_schedule_box)
+        border_box.add_widget(material_cost_box)
+        border_box.add_widget(cost_box)     
+        border_box.add_widget(copywrite_box)
+         
+        return border_box
 
 if __name__ == '__main__':
     current_year = str(datetime.today().year)
