@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import re
 #정규식
 
@@ -48,7 +50,8 @@ def find_wage(worktime, material_cost, count, minimum_wage):
 class MyApp(App):
     def build(self):
         a = "안녕하세요"
-        return Label(text='안녕하세요')
+        font = 'C:\\Users\\mayli\\Desktop\\give_me_the_money\\JejuMyeongjo.ttf'
+        return Label(text=a, font_name = font)
 
 if __name__ == '__main__':
     current_year = str(datetime.today().year)
