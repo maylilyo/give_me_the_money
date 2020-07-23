@@ -9,7 +9,7 @@ from datetime import datetime
 #현재 년도
 
 import kivy
-kivy.require('1.0.6')
+kivy.require('1.11.1')
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
@@ -48,7 +48,7 @@ def find_wage(worktime, material_cost, count, minimum_wage):
 class MyApp(App):
     def build(self):
         a = "안녕하세요"
-        return Label(text=a)
+        return Label(text='안녕하세요')
 
 if __name__ == '__main__':
     current_year = str(datetime.today().year)
