@@ -57,10 +57,11 @@ class MyApp(App):
         border_box = BoxLayout(orientation='vertical')
 
         #title box 양식 설정
+        minimum_wage_text = "2020년\n최저시급:\n" + str(find_minimum_wage(str(datetime.today().year))) +"원"
         title_box = BoxLayout(orientation='horizontal')
         title_image = Button(text="이미지 삽입", font_name = font)
         title_label = Label(text="최저시급 계산기", font_name = font)
-        title_wage = Label(text="2020년 최저시급:_", font_name = font)
+        title_wage = Label(text=minimum_wage_text, font_name = font)
         title_box.add_widget(title_image)
         title_box.add_widget(title_label)
         title_box.add_widget(title_wage)
@@ -72,13 +73,30 @@ class MyApp(App):
         time_schedule_box.add_widget(time_label)
         time_schedule_box.add_widget(time_text_insert)
         
+        #재료비 입력 box 양식 설정
+        material_inform_box = BoxLayout(orientation='vertical')
+        material_name = Label(text="재료 이름", font_name = font)
+        material_inform_box.add_widget(material_name)
+
+        material_detail_inform_box = BoxLayout(orientation='horizontal')
+        material_detail_name = Label(text="양", font_name = font)
+        material_detail_count = Label(text="금액자리", font_name = font)
+        material_detail_inform_box.add_widget(material_detail_name)
+        material_detail_inform_box.add_widget(material_detail_count)
+        material_inform_box.add_widget(material_detail_inform_box)
+
         #재료비 box 양식 설정
         material_cost_box = BoxLayout(orientation='horizontal')
-        material_label = Label(text="재료비", font_name = font)
+        material_label = Label(text="총 재료", font_name = font)
         material_cost_box.add_widget(material_label)
-        material_cost_box.add_widget(Label(text="here in material cost"))
-        #재료비 입력 box 양식 설정
-        #재료 이름, 개수, 총 금액
+        material_cost_box.add_widget(material_inform_box)
+
+        #개수 지정 양식 설정
+        count_box = BoxLayout(orientation='horizontal')
+        count_label = Label(text="생산 개수", font_name = font)
+        count_text_insert = Label(text="개수입력자리", font_name = font)
+        count_box.add_widget(count_label)
+        count_box.add_widget(count_text_insert )
 
         #최저시급 출력 box 양식 설정
         cost_box = BoxLayout(orientation='horizontal')
@@ -95,9 +113,10 @@ class MyApp(App):
         border_box.add_widget(title_box)
         border_box.add_widget(time_schedule_box)
         border_box.add_widget(material_cost_box)
+        border_box.add_widget(count_box)
         border_box.add_widget(cost_box)     
         border_box.add_widget(copywrite_box)
-         
+
         return border_box
 
 if __name__ == '__main__':
