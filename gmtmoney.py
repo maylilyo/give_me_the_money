@@ -17,6 +17,9 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
+from kivy.uix.image import Image
+from kivy.core.window import Window
+from kivy.lang.builder import Builder
 #kivy
 
 def find_minimum_wage(current_year): #최저시급 추출
@@ -50,6 +53,7 @@ def find_wage(worktime, material_cost, count, minimum_wage):
 
 class MyApp(App):
     def build(self):
+        Builder.load_file('./my.kv')
         a = "안녕하세요"
         font = 'C:\\Users\\mayli\\Desktop\\give_me_the_money\\JejuMyeongjo.ttf'
         
@@ -59,7 +63,7 @@ class MyApp(App):
         #title box 양식 설정
         minimum_wage_text = "2020년\n최저시급:\n" + str(find_minimum_wage(str(datetime.today().year))) +"원"
         title_box = BoxLayout(orientation='horizontal')
-        title_image = Button(text="이미지 삽입", font_name = font)
+        title_image = Image(source='moneysqurriel.png')
         title_label = Label(text="최저시급 계산기", font_name = font)
         title_wage = Label(text=minimum_wage_text, font_name = font)
         title_box.add_widget(title_image)
@@ -68,19 +72,19 @@ class MyApp(App):
 
         #time Schedule box 양식 설정
         time_schedule_box = BoxLayout(orientation='horizontal')
-        time_label = Label(text="노동시간(전체, 시 기준)", font_name = font)
-        time_text_insert = Label(text="텍스트박스자리", font_name = font)
+        time_label = Label(text="노동시간(전체, 시 기준)", font_name = font, width=100)
+        time_text_insert = TextInput(multiline=False,font_name = font)
         time_schedule_box.add_widget(time_label)
         time_schedule_box.add_widget(time_text_insert)
         
         #재료비 입력 box 양식 설정
         material_inform_box = BoxLayout(orientation='vertical')
-        material_name = Label(text="재료 이름", font_name = font)
+        material_name = Label(text="재료 이름", font_name = font, width=100)
         material_inform_box.add_widget(material_name)
 
         material_detail_inform_box = BoxLayout(orientation='horizontal')
-        material_detail_name = Label(text="양", font_name = font)
-        material_detail_count = Label(text="금액자리", font_name = font)
+        material_detail_name = TextInput(text="양", multiline=False,font_name = font)
+        material_detail_count = TextInput(text="금액",multiline=False,font_name = font)
         material_detail_inform_box.add_widget(material_detail_name)
         material_detail_inform_box.add_widget(material_detail_count)
         material_inform_box.add_widget(material_detail_inform_box)
@@ -94,10 +98,13 @@ class MyApp(App):
         #개수 지정 양식 설정
         count_box = BoxLayout(orientation='horizontal')
         count_label = Label(text="생산 개수", font_name = font)
-        count_text_insert = Label(text="개수입력자리", font_name = font)
+        count_text_insert = TextInput(multiline=False,font_name = font)
         count_box.add_widget(count_label)
-        count_box.add_widget(count_text_insert )
+        count_box.add_widget(count_text_insert)
 
+        #확인 양식 지정
+        calculate_button = Button(text='계산', font_name = font)
+        
         #최저시급 출력 box 양식 설정
         cost_box = BoxLayout(orientation='horizontal')
         cost_insert = Label(text="계산된 최저시급 자리", font_name = font)
@@ -106,17 +113,20 @@ class MyApp(App):
         cost_box.add_widget(Label(text="입니다.",font_name = font))
 
         #copywrite box 양식 설정
-        copywrite_box = BoxLayout(orientation='horizontal')
-        copywrite_box.add_widget(Label(text="copywrite maylilyo",font_name = font))
+        copywrite_box = BoxLayout(orientation='horizontal', height=50)
+        copywrite_box.add_widget(Label(text="copywrite maylilyo",font_name = font, height=50))
 
         #전체 box에 각각의 box insert
         border_box.add_widget(title_box)
         border_box.add_widget(time_schedule_box)
         border_box.add_widget(material_cost_box)
         border_box.add_widget(count_box)
+        border_box.add_widget(calculate_button)
         border_box.add_widget(cost_box)     
         border_box.add_widget(copywrite_box)
 
+        #window size 지정
+        Window.size = (400, 700)
         return border_box
 
 if __name__ == '__main__':
