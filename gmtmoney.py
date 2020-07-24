@@ -23,7 +23,7 @@ from kivy.lang.builder import Builder
 #kivy
 
 worktime, material_costs, count, minimum_wage = 0,0,0,0
-#global변수
+#global 변수
 
 def find_minimum_wage(current_year): #최저시급 추출
     #current_year = 2020
