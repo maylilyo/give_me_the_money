@@ -56,30 +56,34 @@ def find_wage(worktime, material_cost, count, minimum_wage):
     return wage
 
 
-def on_enter_timetext(instance): #노동시간 입력
+def on_text_timetext(instance, value): #노동시간 입력
     # print('User pressed enter in', instance)
     # print(instance.text)
     global worktime
     worktime = instance.text
     # print("worktime : {}".format(worktime))
 
-def on_enter_count(instance): #총재료 입력
+def on_text_count(instance, value): #총재료 입력
     global count
     count = instance.text
     # print("count : {}".format(count))
 
 class MyApp(App):
     def press(self,instance): #계산 눌렀을 때
-        print("Pressed")
         global worktime, material_costs, count, minimum_wage
-        self.cost = find_wage(int(worktime), material_costs, int(count), minimum_wage)
-        print(self.cost)
-        print(worktime, count, material_costs, minimum_wage)
+        if int(count) == 0:
+            pass
+        else:
+            self.cost = find_wage(int(worktime), int(material_costs), int(count), minimum_wage)
+            print(self.cost)
+            print(worktime, count, material_costs, minimum_wage)
+            self.cost_label.text = str(self.cost)
 
-    def on_enter_material_count(self, instance):
+
+    def on_text_material_count(self, instance, value):
         global material_costs
         print(instance.text)
-        material_costs += int(instance.text)
+        material_costs = instance.text
 
     def build(self):
         global minimum_wage
@@ -92,30 +96,30 @@ class MyApp(App):
         border_box = BoxLayout(orientation='vertical')
 
         #title box 양식 설정
-        minimum_wage_text = "2020년\n최저시급:\n" + str(minimum_wage) +"원"
+        minimum_wage_text = "2020년\n최저시급\n" + str(minimum_wage) +"원"
         title_box = BoxLayout(orientation='horizontal')
         title_image = Image(source='moneysqurriel.png')
         title_label = Label(text="최저시급 계산기", font_name = font, font_size='20sp')
-        title_wage = Label(text=minimum_wage_text, font_name = font)
+        title_wage = Label(text=minimum_wage_text, font_name = font, halign="center", valign="middle")
         title_box.add_widget(title_image)
         title_box.add_widget(title_label)
         title_box.add_widget(title_wage)
 
         #time Schedule box 양식 설정
         time_schedule_box = BoxLayout(orientation='horizontal')
-        time_label = Label(text="노동시간\n(전체, 시 기준)", font_name = font, width=100, font_size='17sp')
-        time_text_insert = TextInput(text='', multiline=False, font_name = font)
-        time_text_insert.bind(on_text_validate=on_enter_timetext)
+        time_label = Label(text="노동시간", font_name = font, width=100, font_size='17sp', halign="center", valign="middle")
+        time_text_insert = TextInput(hint_text='전체, 시 기준\n 예시:(1시간일 경우)1', multiline=False, font_name = font)
+        time_text_insert.bind(text=on_text_timetext)
         time_schedule_box.add_widget(time_label)
         time_schedule_box.add_widget(time_text_insert)
         
         #재료비 입력 box 양식 설정
         material_inform_box = BoxLayout(orientation='vertical')
-        material_name = TextInput(text="재료 이름(지우고 입력)", font_name = font, width=100)
-        material_detail_count = TextInput(text="총 금액(지우고 입력)",multiline=False,font_name = font)
-        material_detail_count.bind(on_text_validate=self.on_enter_material_count)
+        # material_name = TextInput(text="재료 이름(지우고 입력)", font_name = font, width=100)
+        material_detail_count = TextInput(hint_text="총 금액\n 예시:\n(도합 만원일 경우)10000",multiline=False, font_name = font)
+        material_detail_count.bind(text=self.on_text_material_count)
 
-        material_inform_box.add_widget(material_name)
+        # material_inform_box.add_widget(material_name)
         material_inform_box.add_widget(material_detail_count)
 
         #재료비 box 양식 설정
@@ -128,21 +132,22 @@ class MyApp(App):
         count_box = BoxLayout(orientation='horizontal')
         count_label = Label(text="생산 개수", font_name = font, font_size='17sp')
         count_text_insert = TextInput(multiline=False,font_name = font)
-        count_text_insert.bind(on_text_validate=on_enter_count)
+        count_text_insert.bind(text=on_text_count)
         count_box.add_widget(count_label)
         count_box.add_widget(count_text_insert)
 
         #확인 양식 지정
-        calculate_button = Button(text='계산', font_name = font)
+        calculate_button = Button(text='계산', font_name = font, size =(400, 50))
         calculate_button.bind(on_press=self.press)
 
         #최저시급 출력 box 양식 설정
-        cost='0'
+        self.cost='0'
+        self.cost_label = Label(text=self.cost,font_name = font, halign="center", valign="middle", markup=True)
+        self.cost_label.text = '0'
         cost_box = BoxLayout(orientation='horizontal')
-        cost_insert = Label(text="계산된 최저시급 자리", font_name = font)
-        cost_box.add_widget(Label(text="계산된\n최저시급은",font_name = font, font_size='20sp'))
-        cost_box.add_widget(Label(text=cost,font_name = font))
-        cost_box.add_widget(Label(text="입니다.",font_name = font, font_size='20sp'))
+        cost_box.add_widget(Label(text="최저시급을 위한\n개당 금액은",font_name = font, font_size='20sp', halign="center", valign="middle"))
+        cost_box.add_widget(self.cost_label)
+        cost_box.add_widget(Label(text="입니다.",font_name = font, font_size='20sp', halign="center", valign="middle"))
 
         #copywrite box 양식 설정
         copywrite_box = BoxLayout(orientation='horizontal', height=50)
